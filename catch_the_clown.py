@@ -44,9 +44,28 @@ score_rect.topright = (WINDOW_WIDTH -50, 10)
 lives_text = font.render("Lives: " + str(player_lives), True, YELLOW)
 lives_rect = lives_text.get_rect()
 lives_rect.topright = (WINDOW_WIDTH -50, 50)
+
+game_over_text = font.render("GAMEOVER", True, BLUE, YELLOW)
+game_over_rect = game_over_text.get_rect()
+game_over_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+continue_text = font.render("Click anywhere to play again", True, YELLOW, BLUE)
+continue_rect = continue_text.get_rect()
+continue_rect.center = (WINDOW_WIDTH//2,WINDOW_HEIGHT//2+64)
+
 #set sound and music
+click_sound = pygame.mixer.Sound("./catch_the_clown_assets/click_sound.wav")
+miss_sound = pygame.mixer.Sound("./catch_the_clown_assets/miss_sound.wav")
+pygame.mixer.music.load("./catch_the_clown_assets/ctc_background_music.wav")
 
 #set images
+background_image = pygame.image.load("./catch_the_clown_assets/background.png")
+background_rect = background_image.get_rect()
+background_rect.topleft = (0,0)
+
+clown_image = pygame.image.load("./catch_the_clown_assets/clown.png")
+clown_rect = clown_image.get_rect()
+clown_rect.center = (WINDOW_WIDTH//2,WINDOW_HEIGHT//2)
 
 #main game loop
 running = True
@@ -55,6 +74,21 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    #blit background
+    display_surface.blit(background_image, background_rect)
+
+    #blit hud
+    display_surface.blit(title_text, title_rect)
+    display_surface.blit(score_text, score_rect)
+    display_surface.blit(lives_text, lives_rect)
+
+    #blit assets
+    display_surface.blit(clown_image, clown_rect)
+
+    #update display and tick clock
+    pygame.display.update()
+    clock.tick(FPS)
 
 #End game
 pygame.quit()
