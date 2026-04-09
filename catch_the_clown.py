@@ -76,6 +76,29 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        #a click is made
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x = event.pos[0]
+            mouse_y = event.pos[1]
+
+            #the clown was clicked
+            if clown_rect.collidepoint(mouse_x,mouse_y):
+                click_sound.play()
+                score += 1
+                clown_velocity += CLOWN_ACCELERATION
+
+                #move clown in new direction
+                previous_dx = clown_dx
+                previos_dy = clown_dy
+                while(previous_dx == clown_dx and previos_dy == clown_dy):
+                    clown_dx = random.choice([-1,1])
+                    clown_dy = random.choice([-1,1])
+
+            #mised the clown
+            else: 
+                miss_sound.play()
+                player_lives -= 1
+
     #move the clown
     clown_rect.x += clown_dx*clown_velocity
     clown_rect.y += clown_dy*clown_velocity
