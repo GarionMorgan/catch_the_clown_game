@@ -68,12 +68,23 @@ clown_rect = clown_image.get_rect()
 clown_rect.center = (WINDOW_WIDTH//2,WINDOW_HEIGHT//2)
 
 #main game loop
+pygame.mixer.music.play(-1,0.0)
 running = True
 while running: 
     #check if user quits
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    #move the clown
+    clown_rect.x += clown_dx*clown_velocity
+    clown_rect.y += clown_dy*clown_velocity
+
+    #bounce the clown off the edges of display
+    if clown_rect.left <= 0 or clown_rect.right >= WINDOW_WIDTH:
+        clown_dx = -1*clown_dx
+    if clown_rect.top <= 0 or clown_rect.bottom >= WINDOW_HEIGHT:
+        clown_dy = -1*clown_dy
 
     #blit background
     display_surface.blit(background_image, background_rect)
